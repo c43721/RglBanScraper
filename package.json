@@ -1,0 +1,20 @@
+{
+  "name": "rglbanscanner",
+  "version": "1.0.0",
+  "description": "scans for recent bans after 8/20",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "c43721",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "cheerio": "^1.0.0-rc.3",
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "puppeteer": "^5.2.1",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
+}
