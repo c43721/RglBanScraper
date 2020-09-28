@@ -27,4 +27,4 @@ docker build . -t "your tag name here"
 docker run -d [options] "your tag name here"
 ```
 
-Everything is using docker to help usability. It will work without docker, just run `node .` to start the program.
+Everything is using docker to help usability. It will work without docker, just run `npm i` to install dependencies, then `node .` to start the program.
