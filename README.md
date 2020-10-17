@@ -15,6 +15,7 @@ WEBHOOK_LINK* - The complete webhook URL for your discord channel
 INITIAL_BAN* - A bit more tricky, you're going to have to inspect element on the RGL ban page and look for [data-target=#LFT-[NUMBER]]. This controls the ban to start from.
 MENTION_ROLE - The role ID to mention after every ban
 THRESHOLD - The threshhold to send a "Ban wave" notification, currently used to help diagnose false-positives.
+INTERVAL - interval in ms to define how fast the scraper should run.
 
 * = required
 ```

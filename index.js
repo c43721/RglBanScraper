@@ -15,7 +15,7 @@ const rglUrl = "https://rgl.gg/Public/PlayerBanList.aspx"
 
 const role = process.env.MENTION_ROLE
 
-const interval = 20 * 60000
+const interval = process.env.INTERVAL || 20 * 60000
 
 setInterval(async () => await checkRglPage(), interval)
 
@@ -81,7 +81,7 @@ async function sendManyMessages(difference, elementIdArray, linkArray, namesArra
 
 
 async function sendMessage(buffer, link, name, amount, reason) {
-    const webhookClient = new Discord.WebhookClient(WEBHOOK_ID, WEBHOOK_TOKEN);
+    const webhookClient = new Discord.WebhookClient(WEBHOOK_ID, WEBHOOK_TOKEN)
     const att = new Discord.MessageAttachment(buffer, "buffer.png")
 
     await webhookClient.send('', {
@@ -100,7 +100,7 @@ async function sendMessage(buffer, link, name, amount, reason) {
 
 
 async function sendWarningMessage(amount) {
-    const webhookClient = new Discord.WebhookClient(WEBHOOK_ID, WEBHOOK_TOKEN);
+    const webhookClient = new Discord.WebhookClient(WEBHOOK_ID, WEBHOOK_TOKEN)
 
     await webhookClient.send('', {
         embeds: [{
