@@ -1,7 +1,7 @@
 {
   "name": "rglbanscanner",
   "version": "1.0.0",
-  "description": "scans for recent bans after 8/20",
+  "description": "Highly customizable RGL Ban Scraper that will send you discord webhooks upon a ban.",
   "main": "index.js",
   "scripts": {
     "start": "node ."
