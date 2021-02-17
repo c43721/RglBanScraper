@@ -20,7 +20,7 @@ async function getRglBans() {
 	const topMostBan = parseBan(banArray[0]);
 	const oneUnderTopBan = parseBan(banArray[1]);
 
-	//Check if the previous ban is the same as the "newest"
+	// Check if the previous ban is the same as the "newest"
 	if (topMostBan.steamId === oneUnderTopBan.steamId || topMostBan.steamId === startingBan) {
 		//Well, same steam ids. Check their reasons
 		//If they're the same, then we have a ban
@@ -28,11 +28,11 @@ async function getRglBans() {
 		if (topMostBan.steamId === startingBan) return console.log("No new ban");
 	}
 
-	//Now that we know that this ban is probably fresh, let's do some parsing to see how many bans there actually was
-	//Find the index of where the last steamid was
+	// Now that we know that this ban is probably fresh, let's do some parsing to see how many bans there actually was
+	// Find the index of where the last steamid was
 	const startingBanIndex = banArray.findIndex(ban => parseBan(ban).steamId === startingBan);
 
-	//Check to see if that starting index has been buried
+	// Check to see if that starting index has been buried
 	if (startingBanIndex === -1)
 		return console.log(
 			"Either there is >10 bans this interval, or steam id is not formatted correctly."
@@ -42,7 +42,7 @@ async function getRglBans() {
 
 	const newBanDetails = newBans.map(ban => parseBan(ban));
 
-	//New ban details is the list of all new bans during this interval. Do whatever you want.
+	// New ban details is the list of all new bans during this interval. Do whatever you want.
 	console.log(newBanDetails);
 	document.getElementById("bans").innerText = JSON.stringify(newBanDetails);
 }
