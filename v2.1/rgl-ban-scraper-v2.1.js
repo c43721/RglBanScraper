@@ -22,10 +22,9 @@ async function getRglBans() {
 
 	// Check if the previous ban is the same as the "newest"
 	if (topMostBan.steamId === oneUnderTopBan.steamId || topMostBan.steamId === startingBan) {
-		//Well, same steam ids. Check their reasons
-		//If they're the same, then we have a ban
-		if (topMostBan.banReason === oneUnderTopBan.banReason) return console.log("No new ban");
-		if (topMostBan.steamId === startingBan) return console.log("No new ban");
+		// Well, same steam ids. Check their ban expiration dates.
+		// If they're the same, then we have a ban, else it's probably a misfire.
+		if (topMostBan.expiration === oneUnderTopBan.expiration) return console.log("No new ban");
 	}
 
 	// Now that we know that this ban is probably fresh, let's do some parsing to see how many bans there actually was
@@ -52,6 +51,7 @@ function parseBan(ban) {
 
 	const steamId = ban.querySelector("td").innerText.trim();
 	const username = ban.querySelector("td > a").innerText.trim();
+	const expiration = ban.querySelector("td:nth-child(5)").innerText.trim();
 	const banReason = banReasonContainer.querySelector("div").innerText.trim();
 	const linkToProfile = BASE_RGL_URL + steamId;
 
@@ -59,6 +59,7 @@ function parseBan(ban) {
 		steamId,
 		username,
 		banReason,
+		expiration,
 		link: linkToProfile
 	};
 }
