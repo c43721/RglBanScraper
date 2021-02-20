@@ -6,19 +6,18 @@ const BASE_RGL_URL = "https://rgl.gg/Public/PlayerProfile.aspx?p=";
 const parser = new DOMParser();
 
 async function getRglBans() {
+	// Dude, it's 2021: have a public api already...
 	const res = await fetch(CORS_PROXY + RGL_BAN_SITE);
 	const { contents: text } = await res.json();
 
 	const doc = parser.parseFromString(text, "text/html");
 
 	const banContainer = doc.querySelector("tbody");
-	const bans = banContainer.querySelectorAll("tr.collapsed");
+	const banArray = [...banContainer.querySelectorAll("tr.collapsed")];
 
-	const banArray = [...bans];
-
+	// Get last 10 bans
 	const newBanDetails = banArray.map(ban => parseBan(ban));
 
-	// New ban details is the list of all new bans during this interval. Do whatever you want.
 	document.getElementById("bans").innerText = JSON.stringify(newBanDetails);
 }
 
