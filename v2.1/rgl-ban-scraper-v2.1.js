@@ -38,7 +38,7 @@ function parseTypeOfBan(reason) {
 		},
 		{
 			name: "Toxicity",
-			regex: /((hate(ful)?)(\sspeech)?)|((targeted|continued|excessive)\s?harassment)|((anti-|anti\s)*semitic)|(((rac(ial|is+(t|m)))|((homo|trans)phob(ia|ic|e)))?\s(slurs?|comments))|(harassment)/gi
+			regex: /((hate(ful)?)(\sspeech)?)|((targeted|continued|excessive)\s?harassment)|((anti-|anti\s)*semitic)|(((rac(ial|is+(t|m)))|((homo|trans)phob(ia|ic|e)))?\s(slurs?|comments))/gi
 		}
 	];
 
