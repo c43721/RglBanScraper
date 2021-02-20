@@ -3,7 +3,6 @@ const CORS_PROXY = "https://api.allorigins.win/get?url=";
 const RGL_BAN_SITE = "https://rgl.gg/Public/PlayerBanList.aspx?r=40";
 const BASE_RGL_URL = "https://rgl.gg/Public/PlayerProfile.aspx?p=";
 
-const startingBan = "76561198051819671";
 const parser = new DOMParser();
 
 async function getRglBans() {
@@ -17,33 +16,39 @@ async function getRglBans() {
 
 	const banArray = [...bans];
 
-	const topMostBan = parseBan(banArray[0]);
-	const oneUnderTopBan = parseBan(banArray[1]);
-
-	// Check if the previous ban is the same as the "newest"
-	if (topMostBan.steamId === oneUnderTopBan.steamId || topMostBan.steamId === startingBan) {
-		// Well, same steam ids. Check their ban expiration dates.
-		// If they're the same, then we have a ban, else it's probably a misfire.
-		if (topMostBan.expiration === oneUnderTopBan.expiration) return console.log("No new ban");
-	}
-
-	// Now that we know that this ban is probably fresh, let's do some parsing to see how many bans there actually was
-	// Find the index of where the last steamid was
-	const startingBanIndex = banArray.findIndex(ban => parseBan(ban).steamId === startingBan);
-
-	// Check to see if that starting index has been buried
-	if (startingBanIndex === -1)
-		return console.log(
-			"Either there is >10 bans this interval, or steam id is not formatted correctly."
-		);
-
-	const newBans = banArray.splice(0, startingBanIndex);
-
-	const newBanDetails = newBans.map(ban => parseBan(ban));
+	const newBanDetails = banArray.map(ban => parseBan(ban));
 
 	// New ban details is the list of all new bans during this interval. Do whatever you want.
-	console.log(newBanDetails);
 	document.getElementById("bans").innerText = JSON.stringify(newBanDetails);
+}
+
+function parseTypeOfBan(reason) {
+	const categories = [
+		{
+			name: "Cheating",
+			regex: /Cheating/gi
+		},
+		{
+			name: "Alt",
+			regex: /Alt/gi
+		},
+		{
+			name: "Warnings",
+			regex: /failure to submit demos/gi
+		},
+		{
+			name: "Toxicity",
+			regex: /((hate(ful)?)(\sspeech)?)|((targeted|continued|excessive)\s?harassment)|((anti-|anti\s)*semitic)|(((rac(ial|is+(t|m)))|((homo|trans)phob(ia|ic|e)))?\s(slurs?|comments))|(harassment)/gi
+		}
+	];
+
+	for (const category of categories) {
+		const match = category.regex.exec(reason);
+		if (match) return category.name;
+	}
+
+	// Return default "Other"
+	return "Other";
 }
 
 function parseBan(ban) {
@@ -53,6 +58,7 @@ function parseBan(ban) {
 	const username = ban.querySelector("td > a").innerText.trim();
 	const expiration = ban.querySelector("td:nth-child(5)").innerText.trim();
 	const banReason = banReasonContainer.querySelector("div").innerText.trim();
+	const category = parseTypeOfBan(banReason);
 	const linkToProfile = BASE_RGL_URL + steamId;
 
 	return {
@@ -60,6 +66,7 @@ function parseBan(ban) {
 		username,
 		banReason,
 		expiration,
+		category,
 		link: linkToProfile
 	};
 }
